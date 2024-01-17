@@ -1,0 +1,62 @@
+.section-editor-container {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.editor-container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    flex-grow: 0;
+    min-width: 300px
+}
+
+.entry {
+    margin-bottom: 5px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #F3F4F6;
+}
+
+input:active, input:focus {
+    outline-color: #747bff;
+}
+
+button {
+    background-color: white;
+}
+
+.button-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.editor-heading {
+    margin: 0px 10px;
+}
+
+.button-container:hover > .field-heading {
+    border-bottom: 2px solid #747bff;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.open {
+    transform: rotate(180deg);
+}

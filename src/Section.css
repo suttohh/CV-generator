@@ -1,0 +1,50 @@
+.section {
+    text-align: left;
+    margin-bottom: -5px;
+}
+
+.entry {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.entry-title {
+    margin-top: 0px;
+    margin-bottom: -5px;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    border-bottom: 2px solid black;
+}
+
+.role-name {
+    font-style: italic;
+}
+
+.entry-description-paragraph {
+    margin-top: 0px;
+    white-space: pre-line;
+    margin-right: min(5vh, 100px);
+}
+
+.tabbed-content {
+    padding-left: 5em;
+    margin: 0;
+}
+
+.date-and-location {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.entry-date {
+    font-weight: 900;
+}
+
+.entry-location {
+    font-style: italic;
+}

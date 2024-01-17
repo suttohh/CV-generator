@@ -1,0 +1,28 @@
+.resume {
+    padding: 25px 50px;
+    text-align: left;
+    background-color: white;
+    box-shadow: 0 13px 27px -5px rgba(50,50,93,.1), 0 8px 16px -8px rgba(0,0,0,.25);
+}
+
+.applicant-name {
+    font-size: 2rem;
+    margin: 0px;
+}
+
+.applicant-contact-info {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    gap: 20px;
+}
+
+.applicant-contact-info > div {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.material-symbols-outlined {
+    font-size: 1.5rem;
+}
