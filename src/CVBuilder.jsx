@@ -5,22 +5,29 @@ import { v4 as uuidv4 } from 'uuid';
 import { useState } from "react";
 
 function CVBuilder() {
+  const [generalInfo, setGeneralInfo] = useState({
+    id: uuidv4(),
+    name: "Justin Sutton",
+    email: "justin_sutton98@outlook.com",
+    number: "0477962174",
+    location: "Parkes, NSW"
+  });
+
+  const onGeneralInfoChange = (id, newGeneralInfo) => {
+    setGeneralInfo(newGeneralInfo);
+  };
+
   const uowEntry = {
-    id: 1,
+    id: uuidv4(),
     title: "University of Wollongong",
     role: "Web Application Engineer",
     date: "Jul 2019 - Apr 2022",
     location: "Wollongong, Australia",
-    paragraph: (
-    <>▪ Design and development of web applications using the Appian platform.
-    <br/>
-    <span className="tabbed-content">▪ Front-end design and development using Appian Interfaces.</span><br/>
-    <span className="tabbed-content">▪ Back-end development using Appian expressions, process models, web APIs and integrations.</span><br/>
-    <span className="tabbed-content">▪ Database design and development using MySQL.</span></>)
+    paragraph: "▪ Design and development of web applications using the Appian platform.▪ Front-end design and development using Appian Interfaces.▪ Back-end development using Appian expressions, process models, web APIs and integrations.▪ Database design and development using MySQL."
   }
 
   const kidsUpEntry = {
-    id: 2,
+    id: uuidv4(),
     title: "KidsUp",
     role: "English Teacher",
     date: "May 2023 - Nov 2023",
@@ -60,14 +67,22 @@ function CVBuilder() {
     }));
   };
 
-  const lsiList = [{
+  const [lsi, setLSI] = useState({
     id: uuidv4(),
-    paragraph: <>▪ Design and development</>
-  }];
+    paragraph: "Design and developmen"
+  });
+
+  const onLSIChange = (id, newLSI) => {
+    setLSI({
+      id: id,
+      title: newLSI.title,
+      paragraph: newLSI.paragraph
+    });
+  };
   return (
     <div className="cv-builder">
-      <ResumeTools workEntries={workEntries} onWorkEntryChange={onWorkEntryChange} educationEntries={educationEntries} onEducationEntryChange={onEducationEntryChange}/>
-      <Resume workEntries={workEntries} educationEntries={educationEntries} lsiList={lsiList}/>
+      <ResumeTools generalInfo={generalInfo} onGeneralInfoChange={onGeneralInfoChange} workEntries={workEntries} onWorkEntryChange={onWorkEntryChange} educationEntries={educationEntries} onEducationEntryChange={onEducationEntryChange} lsi={lsi} onLSIChange={onLSIChange}/>
+      <Resume generalInfo={generalInfo} workEntries={workEntries} educationEntries={educationEntries} lsiList={[lsi]}/>
     </div>
   );
 }

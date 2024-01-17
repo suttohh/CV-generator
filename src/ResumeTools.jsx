@@ -5,31 +5,59 @@ export default function ResumeTools(props) {
     const workEntriesCustomInputs = props.workEntries.map((entry) => 
     {
         return [
-            <CustomInput key={entry.id} inputId={"company-name-input"} label={"Company Name"} value={entry.title} type={"text"} saveInto={(entry, value) => {return {...entry, title: value}}} onChange={props.onWorkEntryChange} entry={entry}/>,
-            <CustomInput key={entry.id} inputId={"role-input"} label={"Role"} value={entry.role} type={"text"} saveInto={(entry, value) => {return {...entry, role: value}}} onChange={props.onWorkEntryChange} entry={entry}/>
+            <CustomInput key={1} inputId={"company-name-input"} label={"Company Name"} value={entry.title} type={"text"} saveInto={(entry, value) => {return {...entry, title: value}}} onChange={props.onWorkEntryChange} entry={entry}/>,
+            <CustomInput key={2} inputId={"role-input"} label={"Role"} value={entry.role} type={"text"} saveInto={(entry, value) => {return {...entry, role: value}}} onChange={props.onWorkEntryChange} entry={entry}/>,
+            <CustomTextArea key={3} inputId={"description-input"} label={"Description"} value={entry.paragraph} saveInto={(entry, value) => {return {...entry, paragraph: value}}} onChange={props.onWorkEntryChange} entry={entry}/>,
+            <CustomTextArea key={4} inputId={"date-input"} label={"Date Range"} value={entry.date} saveInto={(entry, value) => {return {...entry, date: value}}} onChange={props.onWorkEntryChange} entry={entry}/>,
+            <CustomTextArea key={5} inputId={"location-input"} label={"Location"} value={entry.location} saveInto={(entry, value) => {return {...entry, location: value}}} onChange={props.onWorkEntryChange} entry={entry}/>
         ]
     });
     const educationEntriesCustomInputs = props.educationEntries.map((entry) => 
     {
         return [
-            <CustomInput key={entry.id} inputId={"institute-input"} label={"Institute"} value={entry.title} type={"text"} saveInto={(entry, value) => {return {...entry, title: value}}} onChange={props.onEducationEntryChange} entry={entry}/>
+            <CustomInput key={1} inputId={"institute-input"} label={"Institute"} value={entry.title} type={"text"} saveInto={(entry, value) => {return {...entry, title: value}}} onChange={props.onEducationEntryChange} entry={entry}/>,
+            <CustomInput key={2} inputId={"degree-input"} label={"Degree/Certificate"} value={entry.role} type={"text"} saveInto={(entry, value) => {return {...entry, role: value}}} onChange={props.onEducationEntryChange} entry={entry}/>,
+            <CustomTextArea key={3} inputId={"description-input"} label={"Description"} value={entry.paragraph} saveInto={(entry, value) => {return {...entry, paragraph: value}}} onChange={props.onEducationEntryChange} entry={entry}/>,
+            <CustomTextArea key={4} inputId={"date-input"} label={"Date Range"} value={entry.date} saveInto={(entry, value) => {return {...entry, date: value}}} onChange={props.onWorkEntryChange} entry={entry}/>,
+            <CustomTextArea key={5} inputId={"location-input"} label={"Location"} value={entry.location} saveInto={(entry, value) => {return {...entry, location: value}}} onChange={props.onWorkEntryChange} entry={entry}/>
         ]
     });
+    const lsiCustomTextArea = [[<CustomTextArea key={1} inputId={"lsi-input"} label={"Description"} value={props.lsi.paragraph} saveInto={(id, value) => {return {paragraph: value}}} onChange={props.onLSIChange} entry={[props.lsi]}/>]]
+    const generalInfoCustomInputs = [
+        [
+            <CustomInput key={1} inputId={"applicant-name-input"} label={"Applicant Name"} value={props.generalInfo.name} type={"text"} saveInto={(id, value) => {return {...props.generalInfo, name: value}}} onChange={props.onGeneralInfoChange} entry={[props.generalInfo]}/>,
+            <CustomInput key={2} inputId={"applicant-email-input"} label={"Email"} value={props.generalInfo.email} type={"text"} saveInto={(id, value) => {return {...props.generalInfo, email: value}}} onChange={props.onGeneralInfoChange} entry={[props.generalInfo]}/>,
+            <CustomInput key={3} inputId={"applicant-number-input"} label={"Number"} value={props.generalInfo.number} saveInto={(id, value) => {return {...props.generalInfo, number: value}}} onChange={props.onGeneralInfoChange} entry={[props.generalInfo]}/>,
+            <CustomInput key={4} inputId={"applicant-location-input"} label={"Location"} value={props.generalInfo.location} saveInto={(id, value) => {return {...props.generalInfo, location: value}}} onChange={props.onGeneralInfoChange} entry={[props.generalInfo]}/>
+        ]
+    ];
     return (
         <div className="section-editor-container">
             <SectionEditor 
+                entries={[props.generalInfo]} 
+                customInputs={generalInfoCustomInputs}
+                editorHeading={"General Info"}
+                editorClassName={"general-info-editor-container"}
+                entryHeading={props.generalInfo.name}>
+            </SectionEditor>
+            <SectionEditor 
                 entries={props.workEntries} 
-                onChange={props.onWorkEntryChange}
                 customInputs={workEntriesCustomInputs}
-                editorHeading={"Work-Experience"}
+                editorHeading={"Work Experience"}
                 editorClassName={"work-experience-editor-container"}>
             </SectionEditor>
             <SectionEditor 
                 entries={props.educationEntries} 
-                onChange={props.onEducationEntryChange}
                 customInputs={educationEntriesCustomInputs}
                 editorHeading={"Education"}
                 editorClassName={"education-editor-container"}>
+            </SectionEditor>
+            <SectionEditor 
+                entries={[props.lsi]} 
+                customInputs={lsiCustomTextArea}
+                editorHeading={"Other"}
+                editorClassName={"languages-skills-interests-editor-container"}
+                entryHeading={"Languages, Skills & Interests"}>
             </SectionEditor>
         </div>
     );
@@ -56,19 +84,19 @@ function SectionEditor(props) {
                 <button className="button-container" onClick={() => {
                     isEntryClickedHandler(index);
                 }}>
-                    <h3 className="field-heading">{entry.title}</h3>
+                    <h3 className="field-heading">{props.entryHeading || entry.title}</h3>
                 </button>}
                 {isEntryClicked[index] && 
                 <>{props.customInputs[index].map((input) => {
                     return(input)
                 }
-                )}<button onClick={() => {
+                )}<button className="cancel-button" onClick={() => {
                     isEntryClickedHandler(index);
                     props.onChange(entry.id, entryCopies.current[index]);
                 }}>
                     Cancel
                 </button>
-                <button onClick={() => {
+                <button className="save-button" onClick={() => {
                     isEntryClickedHandler(index);
                     entryCopies.current[index] = entry;
                 }}>
@@ -100,10 +128,23 @@ function CustomInput(props) {
     return(
         <div className="input-container">
             <label className="editor-label">{props.label}
-            <input name={props.inputId} type={props.type} value={props.value} onChange={(event) => {
-                props.onChange(props.entry.id, props.saveInto(props.entry, event.target.value))
-            }}>
-            </input>
+                <input name={props.inputId} type={props.type} value={props.value} onChange={(event) => {
+                    props.onChange(props.entry.id, props.saveInto(props.entry, event.target.value))
+                }}>
+                </input>
+            </label>
+        </div>
+    );
+}
+
+function CustomTextArea(props) {
+    return(
+        <div className="input-container">
+            <label className="editor-label">{props.label}
+                <textarea name={props.inputId} rows="5" value={props.value} onChange={(event) => {
+                    props.onChange(props.entry.id, props.saveInto(props.entry, event.target.value))
+                }}>
+                </textarea>
             </label>
         </div>
     );

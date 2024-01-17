@@ -60,3 +60,26 @@ label {
 .open {
     transform: rotate(180deg);
 }
+
+textarea {
+    resize: none;
+    background-color: #F3F4F6;
+    border-style: none; 
+}
+
+textarea:active, textarea:focus {
+    outline-color: #747bff;
+}
+
+.cancel-button, .save-button {
+    width: 150px;
+    margin: 5px auto;
+}
+
+.cancel-button {
+    border: 2px solid rgb(255, 32, 32);
+}
+
+.save-button {
+    border: 2px solid #747bff;
+}
