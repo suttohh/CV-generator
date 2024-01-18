@@ -1,3 +1,9 @@
+*, *:before, *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 .section-editor-container {
     display: flex;
     flex-direction: column;
@@ -9,11 +15,12 @@
     border-radius: 10px;
     padding: 10px;
     flex-grow: 0;
-    min-width: 300px
+    min-width: 300px;
+    border: 2px solid black;
 }
 
 .entry {
-    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .input-container {
@@ -44,11 +51,12 @@ button {
 }
 
 .editor-heading {
-    margin: 0px 10px;
+    margin: 0px;
 }
 
 .button-container:hover > .field-heading {
     border-bottom: 2px solid #747bff;
+    box-sizing: border-box;
 }
 
 label {

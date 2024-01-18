@@ -24,7 +24,7 @@ function CVBuilder() {
     date: "Jul 2019 - Apr 2022",
     location: "Wollongong, Australia",
     paragraph: "▪ Design and development of web applications using the Appian platform.▪ Front-end design and development using Appian Interfaces.▪ Back-end development using Appian expressions, process models, web APIs and integrations.▪ Database design and development using MySQL."
-  }
+  };
 
   const kidsUpEntry = {
     id: uuidv4(),
@@ -33,7 +33,7 @@ function CVBuilder() {
     date: "May 2023 - Nov 2023",
     location: "Tokyo, Japan",
     paragraph: "I hated this position"
-  }
+  };
 
   const [workEntries, setWorkEntries] = useState([uowEntry, kidsUpEntry]);
 
@@ -53,7 +53,7 @@ function CVBuilder() {
     role: "Bachelor of Computer Science (Cybersecurity)",
     date: "Graduated Nov 2019",
     location: "Wollongong, Australia"
-  }
+  };
 
   const [educationEntries, setEducationEntries] = useState([uowEducation]);
 
