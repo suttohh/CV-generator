@@ -4,6 +4,29 @@
     box-sizing: border-box;
 }
 
+.resume-tools {
+    display: flex;
+    flex-direction: column;
+}
+
+.section-adder {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 25px;
+    border-radius: 10px;
+    background-color: white;
+    outline: 2px solid black;
+}
+
+.section-adder-icon {
+    background-color: white;
+    border-radius: 20px;
+}
+
 .section-editor-container {
     display: flex;
     flex-direction: column;
@@ -19,8 +42,9 @@
     border: 2px solid black;
 }
 
-.entry {
+.entry-editor {
     margin-top: 5px;
+    border-radius: 10px;
 }
 
 .input-container {
@@ -48,6 +72,11 @@ button {
     width: 100%;
     justify-content: space-between;
     align-items: center;
+}
+
+.button-flex {
+    display: flex;
+    flex-direction: column;
 }
 
 .editor-heading {
@@ -90,4 +119,22 @@ textarea:active, textarea:focus {
 
 .save-button {
     border: 2px solid #747bff;
+}
+
+.text-only-checkbox-div {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.text-only-checkbox-div > input {
+    margin-top: 5px;
+}
+
+.text-only-checkbox {
+    
+}
+
+.input-error {
+    color: red;
 }

@@ -19,6 +19,7 @@ function CVBuilder() {
 
   const uowEntry = {
     id: uuidv4(),
+    isEditing: false,
     title: "University of Wollongong",
     role: "Web Application Engineer",
     date: "Jul 2019 - Apr 2022",
@@ -28,6 +29,7 @@ function CVBuilder() {
 
   const kidsUpEntry = {
     id: uuidv4(),
+    isEditing: false,
     title: "KidsUp",
     role: "English Teacher",
     date: "May 2023 - Nov 2023",
@@ -35,54 +37,90 @@ function CVBuilder() {
     paragraph: "I hated this position"
   };
 
-  const [workEntries, setWorkEntries] = useState([uowEntry, kidsUpEntry]);
-
-  const onWorkEntryChange = (id, newEntry) => {
-    setWorkEntries(workEntries.map(entry => {
-      if(entry.id == id) {
-        return newEntry;
-      } else {
-        return entry;
-      }
-    }));
-  };
+  const workEntries = [uowEntry, kidsUpEntry];
 
   const uowEducation = {
     id: uuidv4(),
+    isEditing: false,
     title: "University of Wollongong",
     role: "Bachelor of Computer Science (Cybersecurity)",
     date: "Graduated Nov 2019",
     location: "Wollongong, Australia"
   };
 
-  const [educationEntries, setEducationEntries] = useState([uowEducation]);
+  const educationEntries = [uowEducation];
 
-  const onEducationEntryChange = (id, newEntry) => {
-    setEducationEntries(educationEntries.map(entry => {
-      if(entry.id == id) {
-        return newEntry;
-      } else {
-        return entry;
-      }
-    }));
-  };
-
-  const [lsi, setLSI] = useState({
+  const lsi = {
     id: uuidv4(),
     paragraph: "Design and developmen"
-  });
-
-  const onLSIChange = (id, newLSI) => {
-    setLSI({
-      id: id,
-      title: newLSI.title,
-      paragraph: newLSI.paragraph
-    });
   };
+
+  const [sections, setSections] = useState([
+    {
+      id: uuidv4(),
+      isFreeText: false,
+      isEditing: false,
+      name: "Work Experience",
+      className: "work-experience",
+      entries: workEntries
+    }, 
+    {
+      id: uuidv4(),
+      isFreeText: false,
+      isEditing: false,
+      name: "Education",
+      className: "education",
+      entries: educationEntries
+    },
+    {
+      id: uuidv4(),
+      isFreeText: true,
+      isEditing: false,
+      name: "Languages, Skills & Interests",
+      className: "languages-skills-interests",
+      entries: [lsi]
+    }
+  ]);
+  const onSectionChangeHandler = (sections, newSection) => {
+    const ids = sections.map(section => section.id);
+    if(!ids.includes(newSection.id)) {
+      setSections([...sections, newSection]);
+    } else {
+      setSections(sections.map(section => {
+        if(section.id == newSection.id) {
+          return newSection;
+        } else {
+          return section;
+        }
+      }));
+    }
+  };
+  const onSectionEntryChangeHandler = (sectionId, newEntry) => {
+    setSections(sections.map(section => {
+      if(section.id == sectionId) {
+        const ids = section.entries.map(entry => entry.id);
+        if(!ids.includes(newEntry.id)) {
+          return({...section, entries: [...section.entries, newEntry]});
+        } else {
+          return {...section,
+            entries: section.entries.map(entry => {
+              if(entry.id == newEntry.id) {
+                  return newEntry;
+              } else {
+                  return entry;
+              }
+          })}
+        }
+      } else {
+        return section;
+      }
+    }));
+    return newEntry;
+  }
   return (
     <div className="cv-builder">
-      <ResumeTools generalInfo={generalInfo} onGeneralInfoChange={onGeneralInfoChange} workEntries={workEntries} onWorkEntryChange={onWorkEntryChange} educationEntries={educationEntries} onEducationEntryChange={onEducationEntryChange} lsi={lsi} onLSIChange={onLSIChange}/>
-      <Resume generalInfo={generalInfo} workEntries={workEntries} educationEntries={educationEntries} lsiList={[lsi]}/>
+      <ResumeTools generalInfo={generalInfo} onGeneralInfoChange={onGeneralInfoChange} sections={sections} onSectionChangeHandler={onSectionChangeHandler} onSectionEntryChangeHandler={onSectionEntryChangeHandler}/>
+      <Resume generalInfo={generalInfo} sections={sections}/>
     </div>
   );
 }

@@ -19,9 +19,9 @@ export default function Resume(props) {
               <span className="applicant-phone-number">{props.generalInfo.location}</span>
             </div>
           </div>
-          <Section sectionTitle="Work Experience" entries={props.workEntries}/>
-          <Section sectionTitle="Education" entries={props.educationEntries}/>
-          <Section sectionTitle="Languages, Skills & Interests" entries={props.lsiList}/>
+          {props.sections.map(section => {
+            return <Section key={section.id} sectionTitle={section.name} entries={section.entries}/>
+          })}
         </div>
       );
 }
