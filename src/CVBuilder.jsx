@@ -81,10 +81,14 @@ function CVBuilder() {
       entries: [lsi]
     }
   ]);
-  const onSectionChangeHandler = (sections, newSection) => {
+  const onSectionChangeHandler = (newSection, isDelete = false) => {
     const ids = sections.map(section => section.id);
     if(!ids.includes(newSection.id)) {
       setSections([...sections, newSection]);
+    } else if(isDelete) {
+      setSections(sections.filter((filterSection) => {
+        return filterSection.id != newSection.id;
+      }))
     } else {
       setSections(sections.map(section => {
         if(section.id == newSection.id) {
@@ -95,12 +99,16 @@ function CVBuilder() {
       }));
     }
   };
-  const onSectionEntryChangeHandler = (sectionId, newEntry) => {
+  const onSectionEntryChangeHandler = (sectionId, newEntry, isDelete = false) => {
     setSections(sections.map(section => {
       if(section.id == sectionId) {
         const ids = section.entries.map(entry => entry.id);
         if(!ids.includes(newEntry.id)) {
           return({...section, entries: [...section.entries, newEntry]});
+        } else if(isDelete) {
+          return {...section, entries: section.entries.filter((filterEntry) => {
+            return filterEntry.id != newEntry.id;
+          })}
         } else {
           return {...section,
             entries: section.entries.map(entry => {

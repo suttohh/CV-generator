@@ -50,6 +50,7 @@ export default function ResumeTools(props) {
                             key={section.id}
                             section={section}
                             customInputs={sectionEntryCustomInputs[index]}
+                            onSectionChangeHandler={props.onSectionChangeHandler}
                             onChange={props.onSectionEntryChangeHandler}
                             >
                         </SectionEditor>
@@ -67,33 +68,71 @@ function SectionEditor(props) {
     const [isVisible, setVisible] = useState(false);
     //Used to determine when to display entry specific components
     const [isEntryClicked, setIsEntryClicked] = useState(props.section.entries.map(() => false));
-    const isEntryClickedHandler = (entryIndex) => 
-    setIsEntryClicked(isEntryClicked.map((item, itemIndex) => {
+    const isEntryClickedHandler = (entryIndex, isDelete = false) => 
+    {
+        if(isDelete) {
+        const newIsEntryClicked = [...isEntryClicked];
+        newIsEntryClicked.splice(entryIndex, 1);
+        setIsEntryClicked(newIsEntryClicked);
+    } else {
+        setIsEntryClicked(isEntryClicked.map((item, itemIndex) => {
         if(itemIndex == entryIndex) {
             return !item;
         } else {
             return item;
         }
-    }));
+    }))}
+    };
     const addIsEntryClickedHandler = (value) => {
         setIsEntryClicked(isEntryClicked.concat(value));
     }
     const inputContainers = props.section.entries.map((entry, index) => {
         return (
             <>
-                <InputContainer keyId={index} sectionId={props.section.id} setCopy={(entry) => entryCopies.current[index] = entry} isFreeText={props.section.isFreeText} isEntryClicked={isEntryClicked[index]} isEntryClickedHandler={() => isEntryClickedHandler(index)} entry={entry} customInputs={props.customInputs[index]} entryHeading={props.entryHeading}
-                entryCopy={entryCopies.current[index]} onChange={props.onChange}/>
+                <InputContainer keyId={index} sectionId={props.section.id} setCopy={(entry) => entryCopies.current[index] = entry} isFreeText={props.section.isFreeText} isEntryClicked={isEntryClicked[index]} isEntryClickedHandler={isEntryClickedHandler} entry={entry} customInputs={props.customInputs[index]} entryHeading={props.entryHeading}
+                onSectionEntryChangeHandler={props.onChange} entryCopy={entryCopies.current[index]} index={index} onChange={props.onChange}/>
             </>
         );
     });
+    const dropdownMenu = useRef(null);
+    const tripleDotButton = useRef(null);
+    const [isTripleDotDropdownVisible, setIsTripleDotDropdownVisible] = useState(false);
+    const closeOpenMenus = (e)=> {
+        if(isTripleDotDropdownVisible && !dropdownMenu.current?.contains(e.target) && !tripleDotButton.current?.contains(e.target)){
+          setIsTripleDotDropdownVisible(false);
+        }
+    }
+    document.addEventListener('mousedown',closeOpenMenus);
     return(
         <div className={props.section.className + " editor-container"}>
-            <button className="button-container" onClick={() => {
-                setVisible(!isVisible);
-            }}>
-                <h2 className="editor-heading">{props.section.name}</h2>
-                <span className={isVisible ? "material-symbols-outlined expand-icon" : "material-symbols-outlined expand-icon open"}>expand_more</span>
-            </button>
+            <div className="section-buttons"> 
+                <button className="section-main-button" onClick={() => {
+                    setVisible(!isVisible);
+                }}>
+                    <h2 className="editor-heading">{props.section.name}</h2>
+                    <span className={isVisible ? "material-symbols-outlined expand-icon" : "material-symbols-outlined expand-icon open"}>expand_more</span>
+                </button>
+                {
+                    props.onSectionChangeHandler != null && 
+                    <button ref={tripleDotButton} className="triple-dot-dropdown" onClick={() => {
+                        setIsTripleDotDropdownVisible(!isTripleDotDropdownVisible);
+                    }}>
+                        <span className="material-symbols-outlined triple-dot-icon">more_vert</span>
+                    </button>
+                }
+                {
+                    isTripleDotDropdownVisible &&
+                    <div ref={dropdownMenu} className="triple-dot-dropdown-section">
+                    <button className="dropdown-section-option-container" onClick={() => {
+                        console.log("Clicked");
+                        props.onSectionChangeHandler(props.section, true);
+                    }}>
+                        <span className="material-symbols-outlined delete option-icon">delete</span>
+                        <span className="delete">Remove</span>
+                    </button>
+                    </div>
+                }
+            </div>
             {isVisible && <>
             {inputContainers}
             {!props.section.isFreeText && <EntryAdder sectionId={props.section.id} onSectionEntryChangeHandler={props.onChange} addIsEntryClickedHandler={addIsEntryClickedHandler} entryCopies={entryCopies} entries={props.section.entries}/>}
@@ -139,22 +178,28 @@ function InputContainer(props) {
     const inputsCancelSave = (
         <>
             {props.customInputs.map((input) => {
-                console.log(input.isValidated);
                 return(input)
             })}
             <div className="button-flex">
                 <button className="cancel-button" onClick={() => {
-                    props.isEntryClickedHandler();
+                    props.isEntryClickedHandler(props.index);
                     props.onChange(props.sectionId, props.entryCopy);
                 }}>
                     Cancel
                 </button>
                 <button className="save-button" onClick={() => {
-                    props.isEntryClickedHandler();
+                    props.isEntryClickedHandler(props.index);
                     props.setCopy(props.entry);
                 }} disabled={!props.isFreeText && !isInputValid(props.entry.title)}>
                     Save
                 </button>
+                {!props.isFreeText && <button className="delete-button" onClick={() => {
+                    //DELETE ENTRY
+                    props.isEntryClickedHandler(props.index, true);
+                    props.onSectionEntryChangeHandler(props.sectionId, props.entry, true);
+                }}>
+                    <span className="material-symbols-outlined">delete</span>
+                </button>}
             </div>
          </>
     );
@@ -162,10 +207,10 @@ function InputContainer(props) {
         return inputsCancelSave;
     } else {
         return (
-            <div className="entry-editor" key={props.keyId}>
+            <div className="entry-editor" key={props.entry.id}>
                 {!props.isEntryClicked && 
                 <button className="button-container" onClick={() => {
-                    props.isEntryClickedHandler();
+                    props.isEntryClickedHandler(props.index);
                 }}>
                 <h3 className="field-heading">{props.entryHeading || props.entry.title}</h3>
                 </button>}
@@ -210,7 +255,6 @@ function SectionAdder(props) {
         <button 
             onClick={() => {
                 props.onSectionChangeHandler(
-                    props.sections,
                     {
                         id: uuidv4(),
                         isFreeText: false,
@@ -236,7 +280,7 @@ function NewSectionEditor(props) {
             <div key={props.section.id} className="input-container">
                 <label className="editor-label">Section Heading
                     <input name={"new-section-editor-input"} type="text" value={props.section.name} onChange={(event) => {
-                            props.onSectionChangeHandler(props.sections, {...props.section, name: event.target.value, className: event.target.value.toLowerCase()});
+                            props.onSectionChangeHandler({...props.section, name: event.target.value, className: event.target.value.toLowerCase()});
                             const regexCheck = new RegExp("^[A-Za-z][A-Za-z0-9 -]*$");
                             if(regexCheck.test(event.target.value)) {
                                 setIsSectionNameValid(true);
@@ -251,13 +295,13 @@ function NewSectionEditor(props) {
                 <div className="text-only-checkbox-div">
                     <label className="text-only-checkbox">Free text only?</label>
                     <input name={"new-section-editor-checkbox"} type="checkbox" value={props.section.isFreeText} onChange={(event) => {
-                                props.onSectionChangeHandler(props.sections, {...props.section, isFreeText: event.target.value});
+                                props.onSectionChangeHandler({...props.section, isFreeText: event.target.value});
                             }
                         }>
                     </input>
                 </div>
                 <button className="save-button" onClick={() => {
-                    props.onSectionChangeHandler(props.sections, {...props.section, isEditing: false});
+                    props.onSectionChangeHandler({...props.section, isEditing: false});
                 }} disabled={!isSectionNameValid}>
                     Save
                 </button>

@@ -27,6 +27,58 @@
     border-radius: 20px;
 }
 
+.section-main-button {
+    position: relative;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 0px;
+}
+
+.section-buttons {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.expand-icon {
+    position: absolute;
+    right: 0;
+}
+
+.triple-dot-dropdown {
+    flex: 0;
+    padding: 0px;
+}
+
+.triple-dot-icon {
+    padding-top: 4px;
+}
+
+.triple-dot-dropdown-section {
+    position: absolute;
+    left: 250px;
+    top: 30px;
+    padding: 5px;
+    background-color: white;
+    box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75);
+}
+
+.dropdown-section-option-container {
+    display: flex;
+    align-items: center;
+
+}
+
+.option-icon {
+    font-size: 1.2rem;
+}
+
+.delete {
+    color: red;
+}
+
 .section-editor-container {
     display: flex;
     flex-direction: column;
@@ -121,6 +173,14 @@ textarea:active, textarea:focus {
     border: 2px solid #747bff;
 }
 
+.delete-button {
+    display: flex;
+    justify-content: center;
+    color: rgb(255, 32, 32);
+    width: 25px;
+    align-self: center;
+}
+
 .text-only-checkbox-div {
     display: flex;
     align-items: center;
@@ -131,10 +191,10 @@ textarea:active, textarea:focus {
     margin-top: 5px;
 }
 
-.text-only-checkbox {
-    
-}
-
 .input-error {
     color: red;
+}
+
+button:disabled {
+    border-color: grey;
 }
