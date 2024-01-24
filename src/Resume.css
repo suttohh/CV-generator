@@ -1,9 +1,10 @@
 .resume {
+    position: relative;
     padding: 25px 50px;
     text-align: left;
     background-color: white;
     box-shadow: 0 13px 27px -5px rgba(50,50,93,.1), 0 8px 16px -8px rgba(0,0,0,.25);
-    min-height: 1200px;
+    min-height: 1128px;
     min-width: 800px;
 }
 
@@ -27,4 +28,19 @@
 
 .material-symbols-outlined {
     font-size: 1.5rem;
+}
+
+.resume-options {
+    position: absolute;
+    right: -70px;
+}
+
+.resume-options-button {
+    background-color: transparent;
+}
+
+.print-option {
+    background-color: rgba(0, 0, 0, .25);
+    border-radius: 25px;
+    padding: 10px;
 }

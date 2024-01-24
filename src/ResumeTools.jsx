@@ -124,7 +124,6 @@ function SectionEditor(props) {
                     isTripleDotDropdownVisible &&
                     <div ref={dropdownMenu} className="triple-dot-dropdown-section">
                     <button className="dropdown-section-option-container" onClick={() => {
-                        console.log("Clicked");
                         props.onSectionChangeHandler(props.section, true);
                     }}>
                         <span className="material-symbols-outlined delete option-icon">delete</span>
@@ -295,13 +294,21 @@ function NewSectionEditor(props) {
                 <div className="text-only-checkbox-div">
                     <label className="text-only-checkbox">Free text only?</label>
                     <input name={"new-section-editor-checkbox"} type="checkbox" value={props.section.isFreeText} onChange={(event) => {
-                                props.onSectionChangeHandler({...props.section, isFreeText: event.target.value});
+                                props.onSectionChangeHandler({...props.section, isFreeText: event.target.checked});
                             }
                         }>
                     </input>
                 </div>
                 <button className="save-button" onClick={() => {
-                    props.onSectionChangeHandler({...props.section, isEditing: false});
+                    props.onSectionChangeHandler({...props.section, isEditing: false, entries: props.section.isFreeText ? [{
+                        id: uuidv4(),
+                        isEditing: true,
+                        isFreeText: false,
+                        title: "",
+                        role: "",
+                        date: "",
+                        location: ""
+                    }] : []});
                 }} disabled={!isSectionNameValid}>
                     Save
                 </button>
