@@ -65,7 +65,7 @@ function CVBuilder() {
   return (
     <div className="cv-builder">
       <ResumeTools generalInfo={generalInfo} onGeneralInfoChange={onGeneralInfoChange} sections={sections} onSectionChangeHandler={onSectionChangeHandler} onSectionEntryChangeHandler={onSectionEntryChangeHandler}/>
-      <Resume generalInfo={generalInfo} sections={sections}/>
+      <Resume generalInfo={generalInfo} sections={sections} onGeneralInfoChange={onGeneralInfoChange} onSectionChangeHandler={onSectionChangeHandler}/>
     </div>
   );
 }

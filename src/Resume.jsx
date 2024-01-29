@@ -11,9 +11,18 @@ export default function Resume(props) {
   return (
     <div ref={pdfPrintRef} className="resume">
       <div className="resume-options">
-        <button className="resume-options-button" onClick={handlePrint}>
-          <span className="material-symbols-outlined print-option">print</span>
-        </button>
+        <div className="relative-container">
+          <button className="resume-options-button" onClick={handlePrint}>
+            <span className="material-symbols-outlined resume-option">print</span>
+            <span className="resume-option-text">Print to pdf</span>
+          </button>
+        </div>
+        <div className="relative-container">
+          <button className="resume-options-button">
+            <span className="material-symbols-outlined resume-option">input</span>
+            <span className="resume-option-text">Load Example</span>
+          </button>
+        </div>
       </div>
       <h1 className="applicant-name">{props.generalInfo.name}</h1>
       <div className="applicant-contact-info">

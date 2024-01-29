@@ -56,3 +56,10 @@ button {
     color: #747bff;
   }
 }
+
+@media print {
+  /* Hide all elements inside #root */
+  .resume-options, .section-editor-container{
+    display: none;
+  }
+}

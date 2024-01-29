@@ -319,9 +319,9 @@ function NewSectionEditor(props) {
 
 function isInputValid(value) {
     const regexCheck = new RegExp("^[A-Za-z][A-Za-z0-9 -]*$");
-                if(regexCheck.test(value)) {
-                    return true;
-                } else {
-                    return false;
-                }
+    if(regexCheck.test(value)) {
+        return true;
+    } else {
+        return false;
+    }
 }

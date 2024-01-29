@@ -32,15 +32,43 @@
 
 .resume-options {
     position: absolute;
-    right: -70px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    right: 0;
+    transition: right .1s linear;
+}
+
+.relative-container {
+    position: relative;
+    height: 50px;
 }
 
 .resume-options-button {
+    position: absolute;
+    left: 10px;
     background-color: transparent;
+    display: flex;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    border-radius: 50px;
+    background-color: rgba(0, 0, 0, .25);
+    transition: width .1s linear
 }
 
-.print-option {
-    background-color: rgba(0, 0, 0, .25);
-    border-radius: 25px;
-    padding: 10px;
+.resume-options-button:hover {
+    width: 180px;
+}
+
+.resume-option {
+    margin-left: -8px;
+    font-size: 1.6rem;
+}
+
+.resume-option-text {
+    margin-left: 15px;
+    margin-bottom: 2px;
+    text-wrap: nowrap;
 }
